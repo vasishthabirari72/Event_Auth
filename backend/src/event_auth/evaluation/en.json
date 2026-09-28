@@ -1,0 +1,21 @@
+{
+  "consent": "{label}: permission to capture and test? [adult/guardian/skip] ",
+  "camera_unavailable": "Camera unavailable. Close other camera apps and retry.",
+  "frame_unavailable": "Camera frame unavailable. Reconnect the camera and retry.",
+  "encoding_failed": "Could not process this camera frame.",
+  "window": "Face test: SPACE to capture; ESC to cancel",
+  "genuine_ready": "Enrolled participant {number}: return for a separate capture, then press Enter. ",
+  "unknown": "Unknown participant {number} (must NOT have enrolled)",
+  "participant": "Enrollment participant {number}",
+  "attempt": "Capture processed in {seconds}s. No images or face patterns saved.",
+  "intro": "Temporary evaluation only. Face data stays in memory. Only aggregate counts, timing, model metadata and candidate thresholds are saved. This tool does not issue coupons.",
+  "review_consent": "Have you reviewed docs/CONSENT_TEMPLATE.md and explained it to participants? [yes/no] ",
+  "not_started": "Evaluation not started; camera not opened.",
+  "too_few": "Not enough consenting participants to evaluate.",
+  "calibration": "Calibration captures: use new frames, not the enrollment frames. Include people who did not enroll.",
+  "no_candidate": "No usable threshold recommendation from these captures. Report will record this; collect better or more representative samples.",
+  "candidate": "Candidate thresholds only: MEDIUM={medium}, HIGH={high}. These are not approved pilot settings.",
+  "validation": "Now validate with fresh captures. Keep the gallery fixed and do not adjust thresholds. Use different unknown people if available. Press Enter to begin. ",
+  "report": "Aggregate report saved to {path}. Review candidate thresholds and validation results. M1 acceptance remains pending.",
+  "cancelled": "Evaluation cancelled. No report written; temporary face data discarded."
+}

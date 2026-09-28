@@ -1,0 +1,39 @@
+{
+  "kind": "synthetic_matcher_only",
+  "seed": 20260925,
+  "machine": {
+    "cpu": "AMD Ryzen 7 7730U with Radeon Graphics",
+    "logical_cpus": 16,
+    "memory_bytes": 16078696448,
+    "os": "Linux",
+    "architecture": "x86_64",
+    "python": "3.12.14"
+  },
+  "thresholds": {
+    "medium": 0.363,
+    "high": 0.6
+  },
+  "results": [
+    {
+      "members": 300,
+      "templates": 900,
+      "dimensions": 128,
+      "repeats": 10,
+      "median_seconds": 0.02350193400002354,
+      "p95_seconds": 0.023584748000018863,
+      "max_seconds": 0.023584748000018863
+    },
+    {
+      "members": 2000,
+      "templates": 6000,
+      "dimensions": 128,
+      "repeats": 10,
+      "median_seconds": 0.15657868900001404,
+      "p95_seconds": 0.15838766099994928,
+      "max_seconds": 0.15838766099994928
+    }
+  ],
+  "accuracy_evaluated": false,
+  "full_pipeline_evaluated": false,
+  "m1_acceptance": "NOT VERIFIED"
+}

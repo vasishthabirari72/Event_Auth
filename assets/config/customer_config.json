@@ -1,0 +1,10 @@
+{
+  "organization": "Event Auth",
+  "primary_color": "#1E4FA3",
+  "member_fields": [
+    {"key": "unit", "label": "Unit / flat", "type": "text", "required": false}
+  ],
+  "entitlement_type": "food",
+  "default_options": ["Veg", "Jain"],
+  "experimental_face": true
+}

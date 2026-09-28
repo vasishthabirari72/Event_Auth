@@ -1,0 +1,32 @@
+.tools/
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+coverage.xml
+htmlcov/
+node_modules/
+dist/
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.dump
+*.onnx
+data/
+backups/
+
+# Owner-provided local camera debugging images (never test fixtures)
+/backend/tests/Untitled.jpeg
+/backend/tests/test.jpeg
+/tests/Untitled.jpeg
+/tests/test.jpeg
+
+# Patch leftovers and encrypted local recovery archives
+*.orig
+*.rej
+*.eab

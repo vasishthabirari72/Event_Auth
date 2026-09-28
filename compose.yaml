@@ -1,0 +1,51 @@
+services:
+  db:
+    image: postgres:17
+    environment:
+      POSTGRES_USER: event_auth
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
+      POSTGRES_DB: event_auth
+    ports:
+      - "127.0.0.1:5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U event_auth -d event_auth"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+  test-db:
+    image: postgres:17
+    profiles: [test]
+    environment:
+      POSTGRES_USER: event_auth_test
+      POSTGRES_PASSWORD: local_test_only
+      POSTGRES_DB: event_auth_test
+    ports:
+      - "127.0.0.1:5433:5432"
+    tmpfs:
+      - /var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U event_auth_test -d event_auth_test"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+  restore-db:
+    image: postgres:17
+    profiles: [recovery]
+    environment:
+      POSTGRES_USER: event_auth_restore
+      POSTGRES_PASSWORD: ${RESTORE_POSTGRES_PASSWORD:-}
+      POSTGRES_DB: event_auth_restore
+    ports:
+      - "127.0.0.1:5434:5432"
+    volumes:
+      - recovery_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U event_auth_restore -d event_auth_restore"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+volumes:
+  recovery_data:
+  postgres_data:

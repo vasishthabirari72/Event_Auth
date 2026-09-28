@@ -1,0 +1,19 @@
+{
+  "product": "Event Auth",
+  "eyebrow": "LAPTOP SETUP",
+  "heading": "Get ready for your event",
+  "intro": "Check your connection and camera before registration begins.",
+  "server": "Local server",
+  "checking": "Checking\u2026",
+  "connected": "Connected",
+  "unavailable": "Unavailable \u2014 start the local server and retry.",
+  "retry": "Check again",
+  "camera": "Camera preview",
+  "cameraHelp": "Preview stays on this device. Nothing is captured or saved.",
+  "startCamera": "Start camera",
+  "stopCamera": "Stop camera",
+  "cameraError": "Couldn\u2019t open the camera. Allow camera access, then try again.",
+  "cameraLabel": "Live camera preview",
+  "stage": "Setup preview only. Member registration and coupon workflows are coming next.",
+  "footer": "Works without internet once set up."
+}

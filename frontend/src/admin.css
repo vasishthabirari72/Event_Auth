@@ -1,0 +1,252 @@
+button:not(.secondary):not(.dangerButton):not(.record),
+.brandMark {
+  background: var(--brand, #1e4fa3);
+}
+.secondary,
+.buttonLink {
+  color: var(--brand, #1e4fa3);
+}
+label {
+  display: grid;
+  gap: 6px;
+  margin: 16px 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+input,
+select {
+  width: 100%;
+  min-height: 56px;
+  padding: 12px;
+  border: 1px solid #64748b;
+  border-radius: 8px;
+  font: inherit;
+  background: white;
+  color: #1f2937;
+}
+input:focus-visible,
+select:focus-visible,
+a:focus-visible {
+  outline: 3px solid #1e4fa3;
+  outline-offset: 3px;
+}
+.check {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 56px;
+}
+.check input {
+  width: 24px;
+  min-height: 24px;
+  height: 24px;
+  flex-shrink: 0;
+}
+nav {
+  display: flex;
+  gap: 12px;
+  margin: 24px 0;
+  flex-wrap: wrap;
+}
+nav button {
+  width: auto;
+  min-width: 120px;
+  padding: 12px 20px;
+}
+.secondary {
+  color: var(--brand, #1e4fa3);
+  background: #fafafa;
+  border: 1px solid #a6b5cd;
+}
+.logout {
+  width: auto;
+  padding: 0 20px;
+  margin-left: auto;
+}
+.workspace {
+  display: grid;
+  grid-template-columns: minmax(240px, 1fr) minmax(0, 2fr);
+  gap: 24px;
+  align-items: start;
+}
+.narrow {
+  max-width: 620px;
+  margin: auto;
+}
+.records {
+  list-style: none;
+  padding: 0;
+  max-height: 600px;
+  overflow: auto;
+}
+.record {
+  text-align: left;
+  color: #1f2937;
+  background: #f1f5f9;
+  padding: 16px;
+}
+.record span,
+.record strong {
+  display: block;
+  overflow-wrap: anywhere;
+}
+.record span {
+  font-size: 14px;
+  font-weight: 400;
+}
+.reference {
+  max-width: 180px;
+  max-height: 180px;
+  border-radius: 8px;
+}
+.danger {
+  border-left: 4px solid #c62828;
+}
+.dangerButton {
+  background: #c62828;
+}
+.capture {
+  border-top: 1px solid #cbd5e1;
+  margin-top: 24px;
+  padding-top: 24px;
+}
+.cameraFrame {
+  position: relative;
+}
+.oval {
+  position: absolute;
+  inset: 10% 25%;
+  border: 3px dashed white;
+  border-radius: 50%;
+  pointer-events: none;
+}
+fieldset {
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  margin: 20px 0;
+  padding: 16px;
+  min-width: 0;
+}
+legend {
+  font-weight: 700;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+th,
+td {
+  text-align: left;
+  padding: 10px;
+  border-bottom: 1px solid #cbd5e1;
+}
+.buttonLink {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 56px;
+  margin-top: 16px;
+  padding: 12px;
+  color: #1e4fa3;
+  border: 1px solid #a6b5cd;
+  border-radius: 8px;
+  text-align: center;
+}
+@media (max-width: 760px) {
+  .workspace {
+    grid-template-columns: 1fr;
+  }
+  main {
+    padding: 20px 16px;
+  }
+  .card {
+    padding: 20px;
+  }
+  .intro {
+    margin-top: 32px;
+  }
+}
+
+.entitlementChoice {
+  font-size: 2rem;
+  font-weight: 700;
+}
+.referencePhoto {
+  width: 160px;
+  max-width: 100%;
+  border-radius: 8px;
+}
+.downloadPdf {
+  display: block;
+  padding: 18px;
+  min-height: 56px;
+  background: var(--brand, #1e4fa3);
+  color: white;
+  border-radius: 8px;
+  text-align: center;
+}
+.warning {
+  border: 3px solid #b26a00;
+}
+
+.checkinPanel::after {
+  content: "";
+  display: block;
+  clear: both;
+}
+@media (min-width: 900px) {
+  .comparisonCamera {
+    float: left;
+    width: 48%;
+    margin-top: 32px;
+  }
+  .comparisonMatch {
+    float: right;
+    width: 48%;
+  }
+}
+
+.checkinPanel video,
+.rejectedCapture {
+  width: 100%;
+  max-height: 360px;
+  object-fit: contain;
+}
+
+.counterPanel video {
+  max-height: 360px;
+  object-fit: contain;
+}
+.counterResult {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 32px;
+  text-align: center;
+  color: white;
+  overflow: auto;
+}
+.counterResult.serve {
+  background: #176f34;
+}
+.counterResult.reject {
+  background: #b91c1c;
+}
+.counterResult.caution {
+  background: #874d00;
+}
+.counterResult h1 {
+  font-size: clamp(2rem, 5vw, 4rem);
+  color: white;
+}
+.counterResult .servedOption {
+  font-size: clamp(3rem, 6vw, 5rem);
+  font-weight: 750;
+}
+.counterResult span {
+  font-size: 4rem;
+}

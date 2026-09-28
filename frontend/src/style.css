@@ -1,0 +1,114 @@
+:root {
+  font-family: system-ui, sans-serif;
+  color: #1f2937;
+  background: #fafafa;
+  font-synthesis: none;
+  line-height: 1.6;
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+}
+main {
+  max-width: 1040px;
+  margin: auto;
+  padding: 32px 24px;
+}
+header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 20px;
+}
+.brandMark {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: #1e4fa3;
+  color: white;
+}
+.intro {
+  margin: 64px 0 32px;
+  max-width: 650px;
+}
+.eyebrow {
+  color: #1e4fa3;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+}
+h1 {
+  font-size: clamp(32px, 5vw, 48px);
+  line-height: 1.15;
+  margin: 12px 0 20px;
+}
+h2 {
+  font-size: 22px;
+  margin: 0 0 12px;
+}
+p {
+  font-size: 17px;
+}
+.cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  align-items: start;
+}
+.card {
+  background: white;
+  padding: 28px;
+  border: 1px solid #cbd5e1;
+  border-radius: 16px;
+}
+button {
+  width: 100%;
+  min-height: 56px;
+  border: 0;
+  border-radius: 8px;
+  background: #1e4fa3;
+  color: white;
+  font: inherit;
+  font-weight: 650;
+  cursor: pointer;
+  margin-top: 16px;
+}
+button:disabled {
+  opacity: 0.65;
+  cursor: wait;
+}
+button:focus-visible {
+  outline: 3px solid #1f2937;
+  outline-offset: 4px;
+}
+.success {
+  color: #176f34;
+  font-weight: 650;
+}
+video {
+  width: 100%;
+  border-radius: 8px;
+  background: #1f2937;
+}
+.notice {
+  padding: 16px 20px;
+  background: #eef2f8;
+  border-radius: 8px;
+  margin-top: 32px;
+}
+footer {
+  color: #475569;
+  margin-top: 48px;
+}
+@media (max-width: 640px) {
+  .cards {
+    grid-template-columns: 1fr;
+  }
+  .intro {
+    margin-top: 40px;
+  }
+}

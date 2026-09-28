@@ -1,0 +1,7 @@
+{
+  "model_version": "sface_2021dec",
+  "medium": 0.363,
+  "high": 0.6,
+  "calibrated": false,
+  "notice": "Exploratory values only. Calibrate against consented genuine and impostor attempts before acceptance."
+}

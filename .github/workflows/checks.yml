@@ -1,0 +1,38 @@
+name: Checks
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    env:
+      POSTGRES_PASSWORD: unused_for_test_service
+      RESTORE_POSTGRES_PASSWORD: local_restore_test_only
+      DATABASE_URL: postgresql+psycopg://event_auth_test:local_test_only@127.0.0.1:5433/event_auth_test
+      TEST_DATABASE_URL: postgresql+psycopg://event_auth_test:local_test_only@127.0.0.1:5433/event_auth_test
+      RESTORE_DATABASE_URL: postgresql+psycopg://event_auth_restore:local_restore_test_only@127.0.0.1:5434/event_auth_restore
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - run: pip install uv
+      - run: uv sync --locked
+      - run: .venv/bin/ruff format --check backend scripts
+      - run: .venv/bin/ruff check backend scripts
+      - run: .venv/bin/mypy
+      - run: docker compose --profile test --profile recovery up -d --wait test-db restore-db
+      - run: .venv/bin/alembic upgrade head
+      - run: .venv/bin/pytest
+      - run: npm --prefix frontend ci
+      - run: npm --prefix frontend run format:check
+      - run: npm --prefix frontend run lint
+      - run: npm --prefix frontend run build
+      - run: npm --prefix frontend test
+      - if: always()
+        run: docker compose --profile test --profile recovery stop test-db restore-db
