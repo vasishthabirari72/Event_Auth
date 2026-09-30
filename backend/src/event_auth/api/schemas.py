@@ -30,6 +30,7 @@ class MemberInput(Input):
     name: str = Field(min_length=1, max_length=120)
     mobile: str = Field(default="", max_length=32)
     is_minor: bool = False
+    default_option: str | None = Field(default=None, min_length=1, max_length=80)
     custom_fields: dict[str, str] = Field(default_factory=dict)
     member_code: str | None = Field(default=None, pattern=r"^[A-Z0-9-]{3,24}$")
     revision: int = Field(default=1, ge=1)

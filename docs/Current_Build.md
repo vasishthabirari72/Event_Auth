@@ -59,3 +59,32 @@ is deferred. Recovery/HTTPS tooling and staff guides are in M5_GUIDE.md; see M5_
 for evidence. Physical acceptance and pilot readiness remain pending.
 See M4_GUIDE.md and M4_STATUS.md for redemption, administration and pending physical checks.
 See M3_GUIDE.md for setup and M3_STATUS.md for evidence and remaining acceptance.
+
+## Member food defaults — approved 2026-09-30
+The owner approved including every saved member automatically in each new event.
+This supersedes earlier instructions to enter food choices separately for every event.
+Admins set Default food option in Members; it is stored in the encrypted personal record.
+New events copy that preference into each slot when its label uniquely matches an
+option (ignoring case and surrounding spaces). Missing or unavailable defaults are
+marked Needs choice; resolve these before marking ready or starting check-in.
+
+Admins can override one event's choices in Events or use the Check-in shortcut before
+scanning. This does not change the member default or other events. Changing a member
+default affects future events only. For older events or members added later, use
+Add missing members and fill missing defaults; existing selections are preserved.
+Closed events cannot change. Changes do not rewrite issued coupons; use the existing
+admin replacement process when necessary.
+
+CSV/XLSX member imports accept optional default_option; old templates still work.
+No migration or new dependency is needed. The reusable preferences module and
+application services implement this; core rules remain unchanged. Review event
+slots/options/counters before saving: automatic registrations activate the existing
+structure lock immediately when members exist.
+
+Validation for member defaults: 140/141 backend tests passed on the full run,
+including all five new preference regressions; core coverage 100%. The existing
+random-key PDF QR round-trip test failed decoding once, then both PDF/signing tests
+passed on an isolated rerun. This intermittent QR decode issue remains to monitor.
+Frontend: six tests, lint, type-check/build and Chrome smoke passed; browser smoke
+checks automatic inclusion, prefilled Veg default and event-only Jain override.
+Ruff, mypy and diff whitespace checks passed. No live member choices were migrated.

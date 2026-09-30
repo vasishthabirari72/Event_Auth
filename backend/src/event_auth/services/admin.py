@@ -30,6 +30,7 @@ from event_auth.core.members.rules import (
     validate_consent,
 )
 from event_auth.core.security.roles import Action, Role, require_permission
+from event_auth.modules.preferences import match_defaults
 
 
 class AdminService:
@@ -57,6 +58,7 @@ class AdminService:
         return {
             "id": str(value.id),
             "member_code": value.member_code,
+            "default_option": None,
             **self.vault.open(value.personal),
             "has_face": value.thumbnail is not None,
             "revision": value.revision,
@@ -90,6 +92,20 @@ class AdminService:
             ):
                 raise RuleViolation("invalid_fields")
         personal = data.model_dump(exclude={"member_code", "revision"})
+        previous = self.vault.open(self.member(member_id).personal) if member_id else {}
+        if member_id and "default_option" not in data.model_fields_set:
+            personal["default_option"] = previous.get("default_option")
+        preference = personal["default_option"]
+        if preference and preference != previous.get("default_option"):
+            matches = [
+                option
+                for option in self.config.default_options
+                if option.strip().casefold() == preference.casefold()
+            ]
+            if len(matches) != 1:
+                raise RuleViolation("invalid_default_option")
+            personal["default_option"] = matches[0]
+
         if member_id:
             member = self.member(member_id)
             if member.revision != data.revision:
@@ -254,6 +270,8 @@ class AdminService:
                 self.db.add(CounterOption(counter_id=counter.id, option_id=option_map[path]))
         self.audit("event_edit" if event_id else "event_create", event.id)
         self.db.flush()
+        if event_id is None:
+            self.apply_defaults(event.id)
         return self.event_view(event.id)
 
     def event_view(self, event_id: UUID) -> dict[str, Any]:
@@ -302,6 +320,8 @@ class AdminService:
             "registrations": [
                 {
                     "member_id": str(r.member_id),
+                    "needs_choice": sum(c.registration_id == r.id for c in selections)
+                    != len(slots),
                     "choices": {
                         str(c.slot_id): str(c.option_id)
                         for c in selections
@@ -325,11 +345,59 @@ class AdminService:
             ],
         }
 
+    def choice_view(self, event_id: UUID, member_id: UUID) -> dict[str, Any]:
+        view = self.event_view(event_id)
+        member = self.member(member_id)
+        preference = self.vault.open(member.personal).get("default_option")
+        choices = match_defaults(view["slots"], preference)
+        for registration in view["registrations"]:
+            if registration["member_id"] == str(member_id):
+                choices.update(registration["choices"])
+        return {"choices": choices, "default_option": preference}
+
+    def apply_defaults(self, event_id: UUID) -> None:
+        event = self.event(event_id)
+        ensure_editable(event.status)
+        view = self.event_view(event_id)
+        registrations = {
+            r.member_id: r
+            for r in self.db.scalars(select(Registration).where(Registration.event_id == event_id))
+        }
+        saved = {r["member_id"]: r["choices"] for r in view["registrations"]}
+        members = list(self.db.scalars(select(Member).order_by(Member.id).with_for_update()))
+        for member in members:
+            registration = registrations.get(member.id)
+            if registration is None:
+                registration = Registration(id=uuid4(), event_id=event_id, member_id=member.id)
+                self.db.add(registration)
+                self.db.flush()
+                self.audit("event_member_add", registration.id, [event_id, member.id])
+            choices = match_defaults(
+                view["slots"], self.vault.open(member.personal).get("default_option")
+            )
+            for slot, option in choices.items():
+                if slot in saved.get(str(member.id), {}):
+                    continue
+                selection = Selection(
+                    id=uuid4(),
+                    registration_id=registration.id,
+                    slot_id=UUID(slot),
+                    option_id=UUID(option),
+                )
+                self.db.add(selection)
+                self.audit(
+                    "selection_default",
+                    selection.id,
+                    [event_id, member.id, registration.id, UUID(slot), UUID(option)],
+                )
+        self.db.flush()
+
     def choose(self, event_id: UUID, member_id: UUID, choices: dict[str, str]) -> None:
         event = self.event(event_id)
         ensure_editable(event.status)
         self.member(member_id)
         view = self.event_view(event_id)
+        choices = {**self.choice_view(event_id, member_id)["choices"], **choices}
         validate_choices(
             {s["id"] for s in view["slots"]},
             choices,
@@ -365,5 +433,10 @@ class AdminService:
             select(func.count()).select_from(Registration).where(Registration.event_id == event_id)
         ):
             raise RuleViolation("no_registrations")
+        if any(
+            registration["needs_choice"]
+            for registration in self.event_view(event_id)["registrations"]
+        ):
+            raise RuleViolation("choices_missing")
         event.status = "READY"
         self.audit("event_ready", event.id)

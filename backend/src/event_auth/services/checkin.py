@@ -4,7 +4,7 @@ from typing import Any
 from uuid import UUID, uuid4
 
 from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PrivateKey
-from sqlalchemy import select
+from sqlalchemy import func, select
 from sqlalchemy.orm import Session
 
 from event_auth.adapters.crypto import Vault
@@ -98,6 +98,29 @@ class CheckinService:
         event = self.event(event_id)
         if event.status != "READY":
             raise RuleViolation("invalid_transition")
+        registrations = (
+            self.db.scalar(
+                select(func.count())
+                .select_from(Registration)
+                .where(Registration.event_id == event_id)
+            )
+            or 0
+        )
+        slots = (
+            self.db.scalar(select(func.count()).select_from(Slot).where(Slot.event_id == event_id))
+            or 0
+        )
+        choices = (
+            self.db.scalar(
+                select(func.count())
+                .select_from(Selection)
+                .join(Registration)
+                .where(Registration.event_id == event_id)
+            )
+            or 0
+        )
+        if not registrations or choices != registrations * slots:
+            raise RuleViolation("choices_missing")
         event.status = "LIVE"
         event.revision += 1
         self.audit("event_live", event.id, [])
@@ -142,7 +165,8 @@ class CheckinService:
         for member in self.db.scalars(
             select(Member)
             .join(Registration)
-            .where(Registration.event_id == slot.event_id)
+            .join(Selection, Selection.registration_id == Registration.id)
+            .where(Registration.event_id == slot.event_id, Selection.slot_id == slot.id)
             .order_by(Member.member_code)
         ):
             personal = self.vault.open(member.personal)
@@ -186,7 +210,9 @@ class CheckinService:
             raise RuleViolation("face_disabled")
         candidates = set(
             self.db.scalars(
-                select(Registration.member_id).where(Registration.event_id == slot.event_id)
+                select(Registration.member_id)
+                .join(Selection)
+                .where(Registration.event_id == slot.event_id, Selection.slot_id == slot.id)
             )
         )
         templates = [

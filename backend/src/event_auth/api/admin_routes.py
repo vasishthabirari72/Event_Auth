@@ -230,6 +230,17 @@ def choices(event_id: UUID, data: ChoiceInput, admin: Admin) -> dict[str, bool]:
     return {"ok": True}
 
 
+@router.get("/events/{event_id}/members/{member_id}/choices")
+def member_choices(event_id: UUID, member_id: UUID, admin: Admin) -> dict[str, Any]:
+    return admin.choice_view(event_id, member_id)
+
+
+@router.post("/events/{event_id}/defaults")
+def apply_defaults(event_id: UUID, admin: Admin) -> dict[str, Any]:
+    admin.apply_defaults(event_id)
+    return admin.event_view(event_id)
+
+
 @router.post("/events/{event_id}/ready")
 def ready(event_id: UUID, admin: Admin) -> dict[str, bool]:
     admin.ready(event_id)
@@ -263,7 +274,7 @@ def template(admin: Admin, event_id: UUID | None = None) -> Response:
     fields = (
         ["member_code"] + [s["code"] for s in admin.event_view(event_id)["slots"]]
         if event_id
-        else ["member_code", "name", "mobile", "is_minor"]
+        else ["member_code", "name", "mobile", "is_minor", "default_option"]
         + [field.key for field in admin.config.member_fields]
     )
     output = io.StringIO()

@@ -30,10 +30,12 @@ export function Checkin({
   admin,
   task,
   busy,
+  onEditChoices,
 }: {
   admin: boolean;
   task: Task;
   busy: boolean;
+  onEditChoices?: (eventId: string) => void;
 }) {
   const [events, setEvents] = useState<Event[]>([]);
   const [eventId, setEventId] = useState("");
@@ -244,6 +246,21 @@ export function Checkin({
       </div>
       {slotId && mode === "ready" && (
         <>
+          {admin && onEditChoices ? (
+            <details>
+              <summary>{text.changeChoice}</summary>
+              <p>{text.changeChoiceHelp}</p>
+              <button
+                className="secondary"
+                disabled={busy}
+                onClick={() => onEditChoices(eventId)}
+              >
+                {text.editChoices}
+              </button>
+            </details>
+          ) : (
+            <p>{text.askChoiceChange}</p>
+          )}
           <label>
             <input
               type="checkbox"

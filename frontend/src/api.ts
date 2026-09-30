@@ -73,6 +73,7 @@ export interface Member {
   name: string;
   mobile: string;
   is_minor: boolean;
+  default_option: string | null;
   custom_fields: Record<string, string>;
   has_face: boolean;
   revision: number;
@@ -93,5 +94,9 @@ export interface EventDetail extends EventSummary {
     options: { id: string; code: string; label: string; count: number }[];
   }[];
   counters: { id: string; label: string; serves: string[] }[];
-  registrations: { member_id: string; choices: Record<string, string> }[];
+  registrations: {
+    member_id: string;
+    choices: Record<string, string>;
+    needs_choice: boolean;
+  }[];
 }

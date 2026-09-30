@@ -16,10 +16,12 @@ export function Events({
   config,
   task,
   busy,
+  initialEventId = "",
 }: {
   config: Config;
   task: Task;
   busy: boolean;
+  initialEventId?: string;
 }) {
   const [events, setEvents] = useState<EventSummary[]>([]);
   const [members, setMembers] = useState<Member[]>([]);
@@ -40,12 +42,16 @@ export function Events({
       if (active) {
         setEvents(eventRows);
         setMembers(memberRows);
+        if (initialEventId) {
+          const detail = await api<EventDetail>("/events/" + initialEventId);
+          if (active) setSelected(detail);
+        }
       }
     });
     return () => {
       active = false;
     };
-  }, [task]);
+  }, [task, initialEventId]);
   const fresh = (): Draft => ({
     name: "",
     date: "",
@@ -91,6 +97,8 @@ export function Events({
         <button
           onClick={() => {
             setSelected(null);
+            setMember("");
+            setChoices({});
             setDraft(fresh());
             setEditing(true);
           }}
@@ -154,6 +162,7 @@ export function Events({
             }}
           >
             <h2>{selected ? text.editEvent : text.addEvent}</h2>
+            {!selected && <p>{text.autoEnrollHelp}</p>}
             <label>
               {text.eventName}
               <input
@@ -326,6 +335,29 @@ export function Events({
                 </button>
               )}
             <h3>{text.choices}</h3>
+            <p>{text.eventOverrideHelp}</p>
+            <p role="status">
+              {text.needsChoice}:{" "}
+              {selected.registrations.filter((r) => r.needs_choice).length}
+            </p>
+            <button
+              className="secondary"
+              disabled={busy || selected.status === "CLOSED"}
+              onClick={() =>
+                void task(async () => {
+                  const event = await api<EventDetail>(
+                    "/events/" + selected.id + "/defaults",
+                    "POST",
+                  );
+                  setSelected(event);
+                  setMember("");
+                  setChoices({});
+                })
+              }
+            >
+              {text.applyDefaults}
+            </button>
+            <p>{text.applyDefaultsHelp}</p>
             <form
               onSubmit={(e) => {
                 e.preventDefault();
@@ -343,19 +375,28 @@ export function Events({
                 <select
                   required
                   value={member}
+                  disabled={busy}
                   onChange={(e) => {
-                    setMember(e.target.value);
-                    setChoices(
-                      selected.registrations.find(
-                        (r) => r.member_id === e.target.value,
-                      )?.choices ?? {},
-                    );
+                    const id = e.target.value;
+                    setMember(id);
+                    setChoices({});
+                    if (id)
+                      void task(async () => {
+                        const result = await api<{
+                          choices: Record<string, string>;
+                        }>(`/events/${selected.id}/members/${id}/choices`);
+                        setChoices(result.choices);
+                      });
                   }}
                 >
                   <option value="">{text.choose}</option>
                   {members.map((m) => (
                     <option key={m.id} value={m.id}>
                       {m.name} · {m.member_code}
+                      {selected.registrations.find((r) => r.member_id === m.id)
+                        ?.needs_choice
+                        ? " · " + text.needsChoice
+                        : ""}
                     </option>
                   ))}
                 </select>
@@ -379,7 +420,9 @@ export function Events({
                   </select>
                 </label>
               ))}
-              <button disabled={busy || selected.status === "CLOSED"}>
+              <button
+                disabled={busy || !member || selected.status === "CLOSED"}
+              >
                 {text.saveChoices}
               </button>
             </form>

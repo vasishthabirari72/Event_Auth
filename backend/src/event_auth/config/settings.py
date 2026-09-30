@@ -53,7 +53,13 @@ class CustomerConfig(BaseModel):
         ):
             raise ValueError("Provide 1–12 nonempty default option labels")
         keys = [field.key for field in self.member_fields]
-        if len(keys) != len(set(keys)) or set(keys) & {"name", "mobile", "is_minor", "member_code"}:
+        if len(keys) != len(set(keys)) or set(keys) & {
+            "name",
+            "mobile",
+            "is_minor",
+            "member_code",
+            "default_option",
+        }:
             raise ValueError("Member field keys must be unique and not reserved")
         if any(field.type == "select" and not field.options for field in self.member_fields):
             raise ValueError("Select fields need options")

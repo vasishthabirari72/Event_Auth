@@ -12,6 +12,7 @@ import text from "./l10n/admin.json";
 export function App() {
   const [session, setSession] = useState<StaffSession | null>(null);
   const [config, setConfig] = useState<Config | null>(null);
+  const [choiceEventId, setChoiceEventId] = useState("");
   const [tab, setTab] = useState("members");
   const [username, setUsername] = useState("");
   const [pin, setPin] = useState("");
@@ -180,6 +181,7 @@ export function App() {
                   aria-current={tab === value ? "page" : undefined}
                   disabled={busy}
                   onClick={() => {
+                    setChoiceEventId("");
                     setTab(value);
                     setError("");
                   }}
@@ -192,11 +194,26 @@ export function App() {
               <Members config={config} task={task} busy={busy} />
             )}
             {tab === "events" && (
-              <Events config={config} task={task} busy={busy} />
+              <Events
+                config={config}
+                task={task}
+                busy={busy}
+                initialEventId={choiceEventId}
+              />
             )}
             {tab === "imports" && <Imports task={task} busy={busy} />}
             {tab === "staff" && <StaffUsers task={task} busy={busy} />}
-            {tab === "checkin" && <Checkin admin task={task} busy={busy} />}
+            {tab === "checkin" && (
+              <Checkin
+                admin
+                task={task}
+                busy={busy}
+                onEditChoices={(id) => {
+                  setChoiceEventId(id);
+                  setTab("events");
+                }}
+              />
+            )}
             {tab === "counter" && <CounterScreen task={task} />}
             {tab === "operations" && <Operations task={task} busy={busy} />}
           </>

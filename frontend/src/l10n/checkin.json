@@ -19,7 +19,7 @@
   "noMatch": "Not recognised. Try again or search by ID or name.",
   "retry": "Try again",
   "alreadyIssued": "Coupon already issued:",
-  "retryPdf": "Retry PDF \u2014 same coupon",
+  "retryPdf": "Retry PDF — same coupon",
   "next": "Next member",
   "isThisPerson": "Is this the person in front of you? Yes will issue their coupon.",
   "verifyFallback": "Compare the person with the photo. Without a photo, check their member card or verify with the committee. Only confirm if their identity is verified.",
@@ -27,12 +27,16 @@
   "yes": "Yes",
   "no": "No",
   "confirm": "Confirm identity & create QR PDF",
-  "wrongPerson": "Not this person \u2014 search",
+  "wrongPerson": "Not this person — search",
   "issued": "Coupon saved:",
   "pdfHelp": "Downloading again uses the same coupon. A PDF download does not confirm a physical print.",
   "download": "Download QR PDF",
   "inspectCapture": "Inspect the rejected scan",
   "inspectHelp": "This is the exact frame sent to the detector. It is temporary and is not saved by the server. Save it only if you want to share it for troubleshooting.",
   "rejectedCapture": "Rejected check-in camera frame",
-  "saveCapture": "Save rejected frame for troubleshooting"
+  "saveCapture": "Save rejected frame for troubleshooting",
+  "changeChoice": "Need to change this event’s food choice?",
+  "changeChoiceHelp": "Find the member and save the event choice, then return here to scan. Their usual default stays unchanged.",
+  "editChoices": "Edit event choices before scanning",
+  "askChoiceChange": "Need a different option for this event? Ask an admin to change it before scanning."
 }

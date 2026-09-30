@@ -132,3 +132,24 @@ It uses /usr/bin/google-chrome (override CHROME_BIN if needed), fake records, a 
 browser profile and ports 8765/9223. It refuses non-test/nonempty databases and cleans
 up its own test data. Screenshots contain only fake records. Do not run it concurrently
 with the PostgreSQL test suite.
+
+## Member food defaults — approved 2026-09-30
+The owner approved including every saved member automatically in each new event.
+This supersedes earlier instructions to enter food choices separately for every event.
+Admins set Default food option in Members; it is stored in the encrypted personal record.
+New events copy that preference into each slot when its label uniquely matches an
+option (ignoring case and surrounding spaces). Missing or unavailable defaults are
+marked Needs choice; resolve these before marking ready or starting check-in.
+
+Admins can override one event's choices in Events or use the Check-in shortcut before
+scanning. This does not change the member default or other events. Changing a member
+default affects future events only. For older events or members added later, use
+Add missing members and fill missing defaults; existing selections are preserved.
+Closed events cannot change. Changes do not rewrite issued coupons; use the existing
+admin replacement process when necessary.
+
+CSV/XLSX member imports accept optional default_option; old templates still work.
+No migration or new dependency is needed. The reusable preferences module and
+application services implement this; core rules remain unchanged. Review event
+slots/options/counters before saving: automatic registrations activate the existing
+structure lock immediately when members exist.

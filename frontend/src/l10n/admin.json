@@ -72,7 +72,7 @@
   "importHelp": "Import details or event choices from CSV or Excel (.xlsx). Imports never create face consent. Preview first; rows are saved together only when all are valid.",
   "importKind": "What to import",
   "downloadTemplate": "Download CSV template",
-  "importColumns": "Keep the template headers unchanged. For members, is_minor must be true or false. For choices, use option codes from the event counts CSV. Excel files use the same headers.",
+  "importColumns": "Keep the template headers unchanged. For members, is_minor must be true or false. For choices, use option codes from the event counts CSV. Excel files use the same headers. The optional default_option column uses a configured label, such as Veg or Jain; blank leaves it unset.",
   "file": "CSV or Excel file",
   "previewImport": "Check import",
   "rows": "Rows",
@@ -157,10 +157,20 @@
     "coupon_unavailable": "This coupon is no longer available for download.",
     "request_reused": "This retry key was used for different details. Start a new action.",
     "coupon_replaced": "This coupon already has a replacement. Search for the latest coupon.",
-    "redemption_conflict": "The coupon state changed. Scan again to check its current status."
+    "redemption_conflict": "The coupon state changed. Scan again to check its current status.",
+    "invalid_default_option": "Choose a configured default food option.",
+    "choices_missing": "Some members still need an option for each slot. Review members marked “Needs choice”."
   },
   "navigation": "Administration",
   "product": "Event Auth",
   "checkin": "Check-in",
-  "operations": "Dashboard"
+  "operations": "Dashboard",
+  "defaultOption": "Default food option",
+  "noDefaultOption": "Not set — choose for each event",
+  "defaultOptionHelp": "Used for new events. Changing this default does not change choices already saved for existing events.",
+  "autoEnrollHelp": "All current members will be included automatically. Matching defaults fill each slot; missing choices need review before the event is ready.",
+  "eventOverrideHelp": "Change a member’s choice here before face recognition. Changes apply only to this event. An already-issued coupon keeps its original option; use the admin replacement flow if needed.",
+  "needsChoice": "Needs choice",
+  "applyDefaults": "Add missing members and fill missing defaults",
+  "applyDefaultsHelp": "Includes members added since this event was created and fills missing choices from their defaults. Existing event choices are kept."
 }

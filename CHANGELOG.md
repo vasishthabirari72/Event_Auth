@@ -1,6 +1,8 @@
 # Changelog
 
 ## Unreleased
+- Added encrypted member food defaults, automatic member inclusion in new events,
+  event-only overrides before scanning, import defaults and missing-choice checks.
 - Added M5 admin-authenticated passphrase backup, isolated PostgreSQL restore with
   record/signature verification, read-only preflight, and a strict local HTTPS launcher.
 - Added recovery/TLS tests, staff quick guides and a pilot checklist; physical camera,

@@ -50,3 +50,21 @@ Thermal printer integration remains deferred; coupons are signed PDFs.
 
 The current app remains localhost-only. M5 tooling is ready for the remaining operator
 and physical checks; M5 acceptance is not complete.
+
+## Local HTTPS provisioning — 2026-09-30
+Owner authorized phone HTTPS setup. Ubuntu mkcert 1.4.3-1ubuntu0.3 was downloaded
+and unpacked under ignored `.tools/` without system installation. A dedicated CA and
+server key were created outside the repository under ~/.local/share/event-auth/tls.
+No system/browser trust stores were changed. Only the public CA certificate was exported
+to ignored data/phone-setup/event-auth-ca.crt for manual transfer to the intended phone.
+The app was started on the current private Wi-Fi IPv4 address, port 8443. Certificate-
+verified requests returned 200 for UI/readiness and 401 for unauthenticated counter access.
+This supersedes the earlier localhost-only runtime note for this local session.
+Phone CA installation, actual phone connectivity and layout checks are still pending.
+The current address is DHCP-assigned; stable addressing depends on the owner confirming
+router versus hotspot topology. No router/DHCP/firewall settings were changed.
+
+Later session update: the owner reported Android certificate installation and successful
+phone use over their mobile hotspot. Phone access was subsequently disabled at their
+request; the current server binds only to 127.0.0.1:8000. Formal pilot acceptance
+checks remain pending. The provisioning notes above describe the earlier test session.

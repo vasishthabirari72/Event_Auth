@@ -28,7 +28,10 @@ def import_rows(service: AdminService, data: ImportInput) -> dict[str, Any]:
                         raise RuleViolation("duplicate_code")
                     seen.add(code)
                     if data.kind == "members":
-                        if set(row) != {"member_code", "name", "mobile", "is_minor"} | fields:
+                        if (
+                            set(row) - {"default_option"}
+                            != {"member_code", "name", "mobile", "is_minor"} | fields
+                        ):
                             raise RuleViolation("invalid_columns")
                         if row["is_minor"].lower() not in {"true", "false"}:
                             raise RuleViolation("invalid_minor")
@@ -37,6 +40,7 @@ def import_rows(service: AdminService, data: ImportInput) -> dict[str, Any]:
                                 member_code=code,
                                 name=row["name"],
                                 mobile=row["mobile"],
+                                default_option=row.get("default_option") or None,
                                 is_minor=row["is_minor"].lower() == "true",
                                 custom_fields={field: row[field] for field in fields},
                             )

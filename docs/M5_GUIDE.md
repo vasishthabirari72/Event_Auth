@@ -148,3 +148,21 @@ and [Scrypt](https://cryptography.io/en/latest/hazmat/primitives/key-derivation-
 A PostgreSQL [exported snapshot dump](https://www.postgresql.org/docs/17/app-pgdump.html)
 keeps counts consistent; [single-transaction restore](https://www.postgresql.org/docs/17/app-pgrestore.html)
 avoids committing a partial SQL restore when PostgreSQL reports an error.
+
+## Workspace HTTPS setup — 2026-09-30
+A project-local mkcert executable is available at `.tools/mkcert/usr/bin/mkcert`.
+The dedicated CA directory is `~/.local/share/event-auth/tls/ca`; server certificate/key
+are `~/.local/share/event-auth/tls/server.pem` and `server.key`. Keep these original files.
+For this setup, prefix mkcert commands with
+`CAROOT="$HOME/.local/share/event-auth/tls/ca"` so they use the same CA.
+No laptop trust stores were modified. The exported public certificate for phone transfer
+is `data/phone-setup/event-auth-ca.crt`; transfer only this certificate, never a private key.
+After loading `.env`, the LAN launcher command above works with the current laptop IP
+included in its certificate. If DHCP changes the address, issue a matching server
+certificate with this same CA before restarting. Address reservation and phone trust
+installation remain pending; the phone must reach the laptop over the same local network.
+
+Later session update: the owner reported Android certificate installation and successful
+phone use over their mobile hotspot. Phone access was subsequently disabled at their
+request; the current server binds only to 127.0.0.1:8000. Formal pilot acceptance
+checks remain pending. The provisioning notes above describe the earlier test session.

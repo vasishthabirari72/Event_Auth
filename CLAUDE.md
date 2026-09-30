@@ -42,7 +42,7 @@ backend/src/event_auth/
   api/                  # HTTP transport and application wiring
   services/             # authorized application operations with injected adapters
   config/               # validated configuration
-  modules/              # reusable food_coupon and data_import
+  modules/              # reusable food_coupon, data_import and preferences
 backend/migrations/     # Alembic
 backend/tests/          # core, HTTP, isolated PostgreSQL tests
 frontend/src/           # React features, shared UI, l10n

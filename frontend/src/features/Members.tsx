@@ -169,6 +169,9 @@ function MemberForm({
 }) {
   const [name, setName] = useState(member?.name ?? "");
   const [mobile, setMobile] = useState(member?.mobile ?? "");
+  const [defaultOption, setDefaultOption] = useState(
+    member?.default_option ?? "",
+  );
   const [minor, setMinor] = useState(member?.is_minor ?? false);
   const [fields, setFields] = useState<Record<string, string>>(
     member?.custom_fields ?? {},
@@ -188,6 +191,7 @@ function MemberForm({
                 name,
                 mobile,
                 is_minor: minor,
+                default_option: defaultOption || null,
                 custom_fields: fields,
                 revision: member?.revision ?? 1,
               },
@@ -214,6 +218,23 @@ function MemberForm({
             onChange={(e) => setMobile(e.target.value)}
           />
         </label>
+        <label>
+          {text.defaultOption}
+          <select
+            value={defaultOption}
+            onChange={(e) => setDefaultOption(e.target.value)}
+          >
+            <option value="">{text.noDefaultOption}</option>
+            {defaultOption &&
+              !config.default_options.includes(defaultOption) && (
+                <option value={defaultOption}>{defaultOption}</option>
+              )}
+            {config.default_options.map((option) => (
+              <option key={option}>{option}</option>
+            ))}
+          </select>
+        </label>
+        <p>{text.defaultOptionHelp}</p>
         {config.member_fields.map((field) => (
           <label key={field.key}>
             {field.label}

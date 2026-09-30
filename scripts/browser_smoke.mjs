@@ -68,7 +68,7 @@ try {
   await fill("Staff username","test_browser");await fill("PIN (6–12 digits)","123456");await click("Sign in");
   await waitText("Add member");
   await fill("Member name","Test Browser Member");await fill("Mobile (optional)","TEST-BROWSER");
-  await fill("Unit / flat","TEST-UNIT");await click("Save member");
+  await fill("Unit / flat","TEST-UNIT");await fill("Default food option","Veg");await click("Save member");
   await waitText("Test Browser Member");
   assert(await visible("ID only"));
   assert(await visible("Face registration"));
@@ -93,7 +93,12 @@ try {
   for(let i=0;i<boxes;i++) await evaluate(`document.querySelectorAll('input[type=checkbox]')[${i}].click()`);
   await click("Save event");await waitText("Member choices");
   const ids=await evaluate("Array.from(document.querySelectorAll('select')).map(s=>s.options[1]?.value)");
-  await fill("Member",ids[0]);await fill("Test Lunch",ids[1]);await click("Save choices");
+  await waitText("Registered members: 1");
+  await fill("Member",ids[0]);
+  await waitFor(()=>evaluate("document.querySelectorAll('select')[1].value !== ''"),"default choice loaded");
+  assert.equal(await evaluate("document.querySelectorAll('select')[1].selectedOptions[0].textContent"), "Veg");
+  const jain = await evaluate("[...document.querySelectorAll('select')[1].options].find(o=>o.textContent==='Jain').value");
+  await fill("Test Lunch",jain);await click("Save choices");
   await waitText("Registered members: 1");
   await click("Mark event ready");await waitText("READY");
   await click("Check-in");await waitText("Choose an event");

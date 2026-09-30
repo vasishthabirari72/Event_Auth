@@ -41,3 +41,24 @@ and guardian agreement for minors. Delete member removes personal/face records.
 After serving ends: refresh counts, investigate exceptions, export counts CSV, then close
 the event. Closure is final and expires unused slips. Make an encrypted backup and check
 that a restore drill has been completed. Do not restore an older snapshot over an active event.
+
+## Member food defaults — approved 2026-09-30
+The owner approved including every saved member automatically in each new event.
+This supersedes earlier instructions to enter food choices separately for every event.
+Admins set Default food option in Members; it is stored in the encrypted personal record.
+New events copy that preference into each slot when its label uniquely matches an
+option (ignoring case and surrounding spaces). Missing or unavailable defaults are
+marked Needs choice; resolve these before marking ready or starting check-in.
+
+Admins can override one event's choices in Events or use the Check-in shortcut before
+scanning. This does not change the member default or other events. Changing a member
+default affects future events only. For older events or members added later, use
+Add missing members and fill missing defaults; existing selections are preserved.
+Closed events cannot change. Changes do not rewrite issued coupons; use the existing
+admin replacement process when necessary.
+
+CSV/XLSX member imports accept optional default_option; old templates still work.
+No migration or new dependency is needed. The reusable preferences module and
+application services implement this; core rules remain unchanged. Review event
+slots/options/counters before saving: automatic registrations activate the existing
+structure lock immediately when members exist.
