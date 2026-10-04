@@ -30,3 +30,4 @@ backups/
 *.orig
 *.rej
 *.eab
+.neon

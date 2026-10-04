@@ -115,3 +115,10 @@ No migration or new dependency is needed. The reusable preferences module and
 application services implement this; core rules remain unchanged. Review event
 slots/options/counters before saving: automatic registrations activate the existing
 structure lock immediately when members exist.
+
+## Free online demo — 2026-10-04
+Owner requested online hosting, selected free hosting, authenticated Neon and
+explicitly linked project misty-meadow-56509941 production with an empty neon.ts.
+Proceed with Render Free plus a fresh Neon database for the online demo. Preserve
+the offline laptop deployment. No migration of real member or face data is authorized
+or performed. Free-host face performance and online acceptance remain unverified.

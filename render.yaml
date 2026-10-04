@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: event-auth-demo
+    runtime: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /api/ready
+    envVars:
+      - key: DATABASE_URL
+        sync: false
+    # Add storage.key and coupon-signing.b64 in Render Secret Files before deploy.
